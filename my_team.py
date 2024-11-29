@@ -280,7 +280,7 @@ class OffensiveQLearningAgent(CaptureAgent):
 
         # Característica: Distancia a casa si lleva suficiente comida
         agent_state = game_state.get_agent_state(self.index)
-        if agent_state.num_carrying >= 5:  # Activar esta característica si lleva 5 o más comidas
+        if agent_state.num_carrying >= 1:  # Activar esta característica si lleva 1
             home_distance = self.get_maze_distance(my_pos, self.start)
             features['distance_to_home'] = home_distance
         else:
@@ -295,7 +295,7 @@ class OffensiveQLearningAgent(CaptureAgent):
         # Define los pesos para las características en la evaluación estado-acción.
         return {
             'distance_to_food': -1,        # Incentivar acercarse a la comida
-            'ghost_proximity': 500,       # Penalizar fuertemente estar cerca de fantasmas
+            'ghost_proximity': 300,       # Penalizar fuertemente estar cerca de fantasmas
             'distance_to_home': -10,      # Incentivar regresar a casa si lleva comida suficiente
             'successor_score': 100        # Recompensar áreas con más comida
         }
@@ -365,7 +365,7 @@ class OffensiveQLearningAgent(CaptureAgent):
         if self.episodes_so_far == self.num_training:
             self.epsilon = 0.0
             self.alpha = 0.0
-        self.save_q_values()
+        #self.save_q_values() no mas save q_values ya que ocupan mucho espacio en el archivo
 
     def save_q_values(self):
         # Guardar los valores Q en un archivo.
